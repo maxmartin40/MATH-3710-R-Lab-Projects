@@ -1,0 +1,65 @@
+---
+title: "MATH 3070 Lab Project 6"
+author: "Max Martin"
+date: "October 3, 2024"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+---
+
+*Remember: I expect to see commentary either in the text, in the code with comments created using `#`, or (preferably) both! **Failing to do so may result in lost points!***
+
+## Problem 1 (Verzani problem 5.1)
+*For the `UScereal` (**MASS**) data set, create a scatter plot of `calories` modeled by `sugars` using the `shelf` variable to create different plot characters. Add a legend to indicate the shelf number. Is there any patterns? (Use base R plotting for this problem.)*
+
+```{r, tidy=TRUE, error=TRUE}
+library(MASS)
+#Your code here
+with(UScereal,
+# First, the scatter plot
+plot(calories, sugars,
+# Different colors for different shelves
+col = as.numeric(shelf),
+# Different characters for different shelves
+pch = as.numeric(shelf),
+# Axis labels and plot table
+xlab = "Calories", ylab = "Sugar", main = "Relationship between Calories and Sugar"
+)
+)
+legend(400, 8, c("1", "2", "3"), col = 1:3, pch = 1:3)
+
+# The pattern is that in general the more calories, the more sugar the cereal has.
+```
+
+## Problem 2 (Verzani problem 5.3)
+*For the data set `UScereal` (**MASS**) make a pairs plot of the numeric variables. Which correlation looks larger: fat and calories or fat and sugars?*
+
+```{r, tidy=TRUE, error=TRUE}
+# Creates scatter plots between all the numeric variables. Shelf is not included because while
+# it is a number, it is being used as a classification in the data set.
+pairs(UScereal[c("calories", "protein", "fat", "sodium", "fibre", "carbo", "sugars", "potassium")])
+
+# Fat and calories has a larger correlation based on the eyeball test.
+```
+
+## Problem 3 (Verzani problem 5.4)
+*For the data set `batting` (**UsingR**) make a bubble plot of home runs hit (`HR`) modeled by hits (`H`) where the scale factor for each point is given by `sqrt(SO)/10`. Is there any story to be told by the size of the points? (You must use base R plotting for this problem.)*
+
+```{r, tidy=TRUE, error=TRUE}
+library(UsingR)
+# Plots HRs against hits from the dataset 'batting'
+plot(HR ~ H, data = batting,
+# filled circles
+pch = 16,
+# Changed the color to a light gray because I think it is easier to view.
+col=rgb(red = 0, green = 0, blue = 0, alpha = 0.250),
+# Size of the points dependent on the square root of strikeouts divided by 10.
+cex = sqrt(SO)/10)
+
+# The size of the points says whether or not the player struck out more.
+# Based on the graph I would conclude that players with more hits and HRs
+# also struck out more based on the size of the dots.
+```
+

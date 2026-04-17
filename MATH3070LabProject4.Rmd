@@ -1,0 +1,117 @@
+---
+title: "MATH 3070 Lab Project 4"
+author: "Max Martin"
+date: "September 8, 2016"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+---
+4
+*Remember: I expect to see commentary either in the text, in the code with comments created using `#`, or (preferably) both! **Failing to do so may result in lost points!***
+
+## Problem 1 (Verzani problem 2.43)
+*The `time` variable in the `nym.2002` data set (**UsingR**) contains the time to finish the 2002 New York City Marathon for a random sample of the finishers.*
+
+1. *What percent ran the race in under 3 hours? (note that the data is in minutes)*
+
+```{r}
+library(UsingR)
+# This line counts the number of finishers under 180 minutes (3 hours)
+fast_finishers <- length(which(nym.2002$time < 180))
+# Total finishers of the race
+total_finishers <- length(nym.2002$time)
+# Computes percentage of finishers under 3 hours
+(fast_finishers/total_finishers)*100
+
+```
+
+2. *What is the time cutoff for the top 10%? The top 25%?*
+
+```{r}
+# Notice that these are the 10th and 25th percentiles, respectively
+# First column gives the 10th percentile and the second column gives the 25th 
+# percentile
+quantile(nym.2002$time, c(.1, .25))
+```
+
+3. *What time cuts off the bottom 10%?*
+
+```{r}
+# Output is the 90th percentile which would show the cutoff for the bottom 10%.
+quantile(nym.2002$time, c(.9))
+```
+
+## Problem 2 (Verzani problem 4.1)
+*The data set `UScereal` (**MASS**) contains data on cereals sold in the United States in 1993. For this data set, answer the following questions using R (i.e. MUST answer questions using a code. Do not count by hand):*
+
+1. *How many rows does the data frame have? Columns?*
+
+```{r}
+# This line gives the number of rows
+nrow(UScereal)
+# This line gives the number of columns
+ncol(UScereal)
+```
+
+2. *How many different manufacturers are included?*
+
+```{r}
+# This counts the number of unique manufacturers in the table.
+length(unique(UScereal$mfr))
+```
+
+3. *How many vitamin categories are included?*
+
+```{r}
+# This counts the number of unique vitamin categories.
+length(unique(UScereal$vitamins))
+```
+
+4. *How many cereals have a sugar level above 10?*
+
+```{r}
+# This line counts all values in the sugar column greater than 10.
+length(which(UScereal$sugars > 10))
+```
+
+5. *What is the mean calorie value for cereals with more than 5 grams of fat? Less than or equal to 5?*
+
+```{r}
+# The inside qualifier gives the calorie counts of the entries that have more 
+# than 5 grams of fat and then the outside function just takes the mean of them.
+mean(UScereal$calories[UScereal$fat > 5])
+# This code is nearly identical except that it indexes the entries that have 
+# less than 5 grams of fat.
+mean(UScereal$calories[UScereal$fat <= 5])
+```
+
+6. *What is the mean calorie value for cereals on the middle shelf (2)?*
+
+```{r}
+# This in very similar to the previous code except that it indexes the entries 
+# that are on the middle shelf.
+mean(UScereal$calories[UScereal$shelf == 2])
+```
+
+## Problem 3
+*Create a data frame containing the data in the following table:*
+
+| First    | Last      | Age |
+|----------|-----------|-----|
+| Marcus   | Holstein  | 23  |
+| Samuel   | Adams     | 56  |
+| Gus      | McPherson | 43  |
+| Margaret | Olsen     | 41  |
+| Zim      | Newbold   | 95  |
+
+```{r}
+# I first created 3 separate vectors with the information and then combined them
+# in a dataframe.
+First <- c("Marcus", "Samuel", "Gus", "Margaret", "Zim")
+Last <- c("Holstein", "Adams", "McPherson", "Olsen", "Newbold")
+Age <- c(23, 56, 43, 41, 95)
+names <- data.frame(First, Last, Age)
+names
+```

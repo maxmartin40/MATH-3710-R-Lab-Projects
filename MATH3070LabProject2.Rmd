@@ -1,0 +1,94 @@
+---
+title: "MATH 3070 Lab Project 2"
+author: "Max Martin"
+date: "September 1, 2021"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+---
+
+*Remember: I expect to see commentary either in the text, in the code with comments created using `#`, or (preferably) both! **Failing to do so may result in lost points!***
+
+## Problem 1 (Verzani problem 1.7)
+*The `rivers` (**UsingR**) or any other data set is available after loading the package **UsingR**. Load the package, and inspect the data set. Scan the values to find the largest one.*
+
+```{r}
+# This is the command to load the UsingR package.
+library(UsingR)
+# This function iterates through the dataset to find the largest value, which is 3170 based on my own eye
+# scanning and then of course the following function.
+max(rivers)
+```
+
+## Problem 2 (Verzani problem 2.4)
+*Create the following sequences, using `:`, `seq()`, or `rep()` as appropriate:*
+
+1. `"a" "a" "a" "a" "a" "a"`
+
+```{r}
+# Repetition function to repeat the string "a" six times.
+a_vec <- rep(c("a"),times=6)
+#Prints the output for easy viewing.
+a_vec
+```
+
+2. `1 3 ... 99` *(the odd numbers)*
+
+```{r}
+# Creates a sequence starting at 1, ending at 99, and increasing by 2 everytime to ensure that
+# only the odd numbers are in the sequence.
+odd_num <- seq(1,99,by=2)
+#Prints the vector
+odd_num
+```
+
+3. `1 1 1 2 2 2 3 3 3`
+
+```{r}
+# These lines create respective vectors for each number using the repetition function.
+one_vec <- rep(c(1),times=3)
+two_vec <- rep(c(2),times=3)
+three_vec <- rep(c(3),times=3)
+# This line pastes all three together in a final vector, and then prints it.
+final_vec <- c(paste(one_vec), paste(two_vec), paste(three_vec))
+# Converts previous vector from string to numeric.
+as.numeric(final_vec)
+
+# Here is the same solution but a bit 'cleaner' but not the first way I thought about doing it.
+final_vec1 <- c(rep(c(1),times=3), rep(c(2),times=3), rep(c(3),times=3))
+final_vec1
+```
+
+## Problem 3 (Verzani problem 2.3)
+*Let our small data set be* `2 5 4 10 8`.
+
+1. *Enter this data into a data vector `x`.*
+
+```{r}
+# Vector name is 'x' as desired and the function 'c' which stands for concatenate will be used.
+x <- c(2,5,4,10,8)
+```
+
+2. *Find the square of each number.*
+
+```{r}
+# The first line takes the square of each number and the second line prints the output of the new vector.
+x^2
+```
+
+3. *Subtract 6 from each number.*
+
+```{r}
+# Subtracts 6 from every value in the vector 'x'.
+x-6
+```
+
+4. *Subtract 9 from each number and then square the answer.*
+
+```{r}
+# Order of Operations is important here so it will subtract 9 from each value and
+# then it will square the result and automatically print it.
+(x-9)^2
+```

@@ -1,0 +1,94 @@
+---
+title: "MATH 3070 Lab Project 11"
+author: "Max Martin"
+date: "November 14, 2024"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+---
+
+*Remember: I expect to see commentary either in the text, in the code with comments created using `#`, or (preferably) both! **Failing to do so may result in lost points!***
+
+*Because randomization is used in this assignment, I set the seed here, in addition to beginning each code block. **Do not change the seed!***
+
+```{r}
+set.seed(6222016)
+```
+
+## Problem 1 (Verzani problem 7.1)
+*Simulate 1000 rolls of a pair of dice, and compute the sum of each pair. Which is more common, a roll of 7 or 8?*
+
+```{r, echo=FALSE}
+# Seed reset; DO NOT CHANGE THE SEED!
+set.seed(6222016)
+```
+
+```{r, tidy=TRUE}
+# Rolls of two different dice
+die_one <- sample(c(1,2,3,4,5,6), 1000, replace = TRUE)
+die_two <- sample(c(1,2,3,4,5,6), 1000, replace = TRUE)
+# Sum of the two dice
+sum_dice <- die_one + die_two
+# Inequality will output "True" if there are more counts of 7 and "False" if there
+# are more counts of 8
+length(which(sum_dice == 7)) > length(which(sum_dice == 8))
+```
+
+## Problem 2 (Verzani problem 7.2)
+*For the `rivers` data set, take 1000 random samples of size 10. Compare the mean of the sample means computed from these samples, with the sample mean of the data in `rivers`.*
+
+```{r, echo=FALSE}
+# Seed reset; DO NOT CHANGE THE SEED!
+set.seed(6222016)
+```
+
+```{r, tidy=TRUE}
+# Loads the library
+library(UsingR)
+# Creates 1000 random samples from the rivers dataset, of 10 each
+rivers_sample <- replicate(1000, sample(rivers, 10))
+# Mean of data in rivers is 591.18
+mean(rivers)
+# Mean of data in our randomized sample (varies so I cannot say perfectly)
+mean(rivers_sample)
+```
+
+## Problem 3
+*The data set `Melanoma` (**MASS**) includes data for 205 Danish patients with malignant melanoma. The variable `time` describes survival time in days, and `sex` describes the sex of the patient. Does survival time differ between the sexes?*
+
+1. *Find $\bar{x}_{\text{men}} - \bar{x}_{\text{women}}$, the mean difference in survival time (`time`) between men and women (`sex`) in `Melanoma`.*
+
+```{r, tidy = TRUE}
+# Loading proper library
+library(MASS)
+# Creates subset data frame of each sex
+subset_men <- subset(Melanoma, sex == 0)
+subset_women <- subset(Melanoma, sex == 1)
+# Takes the mean of each for survival time and then computes the difference
+orig_diff <- mean(subset_men$time) - mean(subset_women$time)
+orig_diff
+# This output means that men normally live longer than women with melanoma.
+```
+
+2. *Investigate whether the difference you observed in part 1 is significant, using procedures explored in the lecture. There are two groups in this investigation: male (`Melanoma$sex == 0`) and female (`Melanoma$sex == 1`). Randomly reassign the data in the `time` variable to the two groups, and compute the mean difference. Repeat 2000 times (this needs to be done relatively quickly; if it takes over a few minutes, I will dock points), and determine how frequently the difference in the mean survival time between men and women (that is, $\bar{x}_{\text{men}} - \bar{x}_{\text{women}}$ in the simulated data is less than the same difference observed in the actual data. Does this analysis suggest the difference is due to "noise", or due to an actual difference in survival time between men and women?*
+
+```{r, echo=FALSE}
+# Seed reset; DO NOT CHANGE THE SEED!
+set.seed(6222016)
+```
+
+```{r, tidy=TRUE}
+# Your code here
+sim_diff <- replicate(2000, {
+  ind <- sample(1:length(Melanoma$time), size=126)
+  mean(Melanoma$time[ind])-mean(Melanoma$time[-ind])
+})
+
+# Calculates how often 
+1 - mean(sim_diff < orig_diff)
+# Very low value so this means that it is very unlikely to happen randomly
+# which means that our original stats are significant that men live longer
+# than women with melanoma.
+```

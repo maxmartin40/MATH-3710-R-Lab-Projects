@@ -1,0 +1,102 @@
+---
+title: "MATH 3070 Lab Project 3"
+author: "Max Martin"
+date: "September 1, 2016"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+---
+
+*Remember: I expect to see commentary either in the text, in the code with comments created using `#`, or (preferably) both! **Failing to do so may result in lost points!***
+
+## Problem 1
+*The `faithful` (Package **datasets** is built in Base R) dataset records the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park. Find the mean waiting time, median waiting time, longest waiting time and shortest waiting time in minutes.*
+
+```{r}
+# Calling the UsingR library so I can use the data set
+library(UsingR)
+# Finding the mean of the waiting time
+mean(faithful$waiting)
+# Finding the median waiting time
+median(faithful$waiting)
+# Longest waiting time
+max(faithful$waiting)
+# Shortest waiting time
+min(faithful$waiting)
+```
+
+## Problem 2 (Verzani problem 2.34)
+*The data set `DDT` (**MASS**) contains independent measurements of the pesticide DDT on kale. Make a histogram and a boxplot of the data. From these, estimate the mean and standard deviation. Check your answers with the appropriate functions.*
+
+```{r}
+# Histogram of DDT
+hist(DDT)
+# Box plot of DDT
+boxplot(DDT)
+# I predict the mean to be 3.5 and the following function tells us the mean
+mean(DDT)
+# I predict the standard deviation to be 0.75, this function tell us the standard deviation
+sd(DDT)
+```
+
+## Problem 3 (Verzani problem 2.32 modified)
+*Write a function 'density_compare()' that fits a density estimate to a given data set and plots that estimate along with the appropriate histogram of the given data set. Try your function with the data set `pi2000` (**UsingR**). Why might you want to add an argument like `breaks = 0:10-.5` to `hist()`? (Hint: read the documentation of `hist()` to see what setting this argument does). Feel free to add other parameters to your plot methods to see how they can be changed.*
+
+```{r}
+# Writing the function
+# Makes histogram with with AUC = 1
+# The plots density estimate on top of histogram
+# The importance of the 'breaks' argument is that it can help prevent the grouping of
+# 0 and 1 by including -1 in the breaks argument The instructor showed us the power
+# of this in class and it was also true here.
+density_compare <- function(x) {
+  hist(x, freq = FALSE, breaks = -1:10)
+  lines(density(x))
+}
+
+# Calling desired function
+density_compare(pi2000)
+```
+
+## BONUS (Verzani problem 2.25)
+*Write a function `isprime()` that checks if a number $x$ is prime by dividing $x$ by all the values in $2, ..., x - 1$ then checking to see if there is a remainder of 0. The expression `a %% b` returns the remainder of `a` divided by `b`.*
+
+```{r}
+# Function iterates through to see if it is divisible by factors between 2 and x-1 where x is the
+# number we want to know if it is prime. False means it is not prime, True means it is prime.
+isprime <- function(x) {
+  if (x == 2) {
+    return(FALSE)
+  }
+  for (i in 2:(x-1)) {
+    if (x %% i == 0) {
+      return(FALSE)
+    }
+  }
+  return(TRUE)
+}
+
+isprime(37)
+```
+
+*You do not need to check all numbers from 2 to $x - 1$ to see if a number is prime. What is the largest you would need to go for an arbitrary $x$? Create a new function, `isprime2()`, that implements this better (yet still slow) method.*
+
+```{r}
+# You only need to check up to x/2 because 2 is the least factor is could possibly have so we will do the
+# exact same function but only iterate through x/2.
+isprime2 <- function(x) {
+  if (x == 2) {
+    return(FALSE)
+  }
+  for (i in 2:(x/2)) {
+    if (x %% i == 0) {
+      return(FALSE)
+    }
+  }
+  return(TRUE)
+}
+
+isprime2(38)
+```

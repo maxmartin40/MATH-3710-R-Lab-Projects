@@ -1,0 +1,81 @@
+---
+title: "MATH 3070 Lab Project 9"
+author: "Max Martin"
+date: "October 31, 2024"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+---
+
+*Remember: I expect to see commentary either in the text, in the code with comments created using `#`, or (preferably) both! **Failing to do so may result in lost points!***
+
+## Problem 1 (Verzani problem 3.17)
+*The `state.x77` data set contains various information for each of the fifty United States. We wish to explore possible relationships among the variables. First, we make the data set easier to work with by turning it into a data frame.*
+
+```{r}
+# Turns data set into a dataframe.
+x77 <- data.frame(state.x77)
+```
+
+*Now, make scatter plots of `Population` and `Frost`; `Population` and `Murder`; `Population` and `Area`; and `Income` and `HS.Grad`. Do any relationships appear linear? Are there any surprising correlations?*
+
+```{r, tidy=TRUE}
+# Plot of Population vs Frost
+plot(Frost ~ Population, data = x77)
+
+# Plot of Population vs Murder
+plot(Murder ~ Population, data = x77)
+
+# Plot of Population vs Area
+plot(Area ~ Population, data = x77)
+
+# Plot of Income vs HS Graduation Rate
+plot(HS.Grad ~ Income, data = x77)
+
+# Honestly I don't find anything super surprising. The one thing is that you
+# would expect area and population to be more correlated but we know from
+# basic geography that the least populous states have more area. The Income
+# and High School Graduation Rate graph is what you'd expect, that more income
+# means that more people graduate.
+```
+
+## Problem 2 (Verzani problem 3.20)
+*The `batting` (**UsingR**) data set contains baseball statistics for the 2002 Major League Baseball season. What is the correlation between the number of strikeouts (`SO`) and the number of home runs (`HR`)? Make a scatter plot to see whether there is any trend. Does the data suggest that in order to hit a lot of home runs one should strike out a lot?*
+
+```{r, tidy=TRUE}
+# Load the library
+library(UsingR)
+# Plot of strikeouts vs home runs
+plot(HR ~ SO, data = batting)
+
+# The plot suggests that those who hit more home runs do strikeout more.
+# From my baseball experience this is because players who hit more home runs
+# have more plate appearances and swing at more pitches which leads to more
+# strikeouts.
+```
+
+## Problem 3 (Verzani problem 3.32)
+*The data set `UScereal` (**MASS**) contains information about cereals on a shelf of a United States grocery store. Make a table showing the relationship between manufacturer, `mfr`, and shelf placement, `shelf`. Are there any obvious differences between manufacturers?*
+
+```{r, tidy=TRUE}
+# Plot of manufacturer vs shelf
+plot(shelf ~ mfr, data = UScereal)
+
+# There are some pretty big differences. K, P, and Q all have their cereal on
+# shelves 2 and 3 where as N only has cereal on shelves 1 and 2. R has all of
+# their cereal on shelf 1 except for one cereal which is on shelf 3.
+```
+
+## Problem 4 (Verzani problem 3.33)
+*The help page for `mosaicplot()` demonstrates the data set `HairEyeColor`, which records `sex`, `Hair` color, and `Eye` color for 592 statistics students. The data set comes as a flattened table, so simply passing the object to `mosaicplot()` will create the plot. (Or, as demonstrated, passing `shade = TRUE`, as in `mosaicplot(HairEyeColor, shade = TRUE)`, will produce a colored version.)*
+*Make the plot. Why does the help page note, "there are more blue-eyed, blonde females than expected?"*
+
+```{r, tidy=TRUE}
+# Creates plot from copied line above in the description.
+mosaicplot(HairEyeColor, shade = TRUE)
+
+# There are more blue-eyed, blonde females than expected because females are
+# overrepresented in the data.
+```

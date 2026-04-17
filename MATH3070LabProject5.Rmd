@@ -1,0 +1,71 @@
+---
+title: "MATH 3070 Lab Project 5"
+author: "Max Martin"
+date: "September 20, 2018"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+---
+
+*Remember: I expect to see commentary either in the text, in the code with comments created using `#`, or (preferably) both! **Failing to do so may result in lost points!***
+
+
+## Problem 1 (Verzani problem 4.7)
+*Use the `subset()` function to return a data frame made from the `Cars93` (**MASS**) data frame consisting only of `non-USA` cars in origin, with 4 cylinders and a maximum price of \$15,000 or less.*
+
+```{r, tidy=TRUE,error=TRUE}
+# Importing the library we need.
+library(UsingR)
+# Calling the subset function and I am iterating for all the foreign cars that
+# have 4 cylinders and  maximum price of less than $15k.
+subset(Cars93, subset = Origin == 'non-USA' & Cylinders == 4 & Max.Price <= 15.0)
+```
+
+## Problem 2 (Verzani problem 4.10)
+*Find the standard deviation of each variable in the `mtcars` data set.*
+
+```{r, tidy=TRUE, error=TRUE}
+# I am using the 'sapply' function to call the data set I want and then calling
+# the standard deviation function.
+sapply(mtcars, sd)
+```
+
+## Problem 3 (Verzani problem 4.11)
+*Find the standard deviation for each numeric variable in `Cars93` (**MASS**).*
+
+```{r, tidy=TRUE, error=TRUE}
+# The first line takes all of the columns that have numeric variables and then
+# the second line uses the sapply similarily to Problem 2 to take the standard
+# deviation of all the numeric variables.
+Cars93_num <- subset(Cars93, select = sapply(Cars93, is.numeric))
+sapply(Cars93_num, sd)
+```
+
+## Problem 4
+*You can find data describing various statistics on 2012 Olympic participating nations such as population and medal counts in the comma-separated value file (olympic-medals2012.csv). Load this dataset into R in a data frame and do the following:*
+
+1. *Create a new data frame containing only the country's ISO code (a three-letter code for the country; USA is the United States of America, and DZA Algeria), name, population, and counts for gold, silver, and bronze. This data frame should be called `olympic2012`.*
+
+```{r, tidy=TRUE, error=TRUE}
+# The first line reads the csv file into a new variable that I have assigned.
+oly_data <- read.csv("olympic-medals2012.csv")
+# This line only prints the desired columns by using the subset function.
+olympic2012 <- subset(oly_data, select = c(ISO, Country.name, pop.2010, Gold, Silver, Bronze))
+olympic2012
+```
+
+2. *What proportion of countries earned no medals? Answer this using `olympic2012`.*
+
+```{r, tidy=TRUE, error=TRUE}
+# This line counts the number of rows of the subset of 'olympic2012' of countries
+# that did not win any medals.
+zero_medals <- nrow(subset(olympic2012, subset = Gold==0 & Silver==0 & Bronze==0))
+# This line counts the number of rows in the entire 'olympic2012' dataset, so the
+# total number of countries.
+total_countries <- nrow(olympic2012)
+# This line finds the percentage of countries that did not win any medals.
+(zero_medals/total_countries)*100
+```
+

@@ -1,0 +1,60 @@
+---
+title: "MATH 3070 Lab Project 10"
+author: "Max Martin"
+date: "November 7,2024"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+---
+
+*Remember: I expect to see commentary either in the text, in the code with comments created using `#`, or (preferably) both! **Failing to do so may result in lost points!***
+
+*Since this assignment involves simulation, I set the seed to the following in order to get the same results:*
+
+```{r}
+set.seed(5292016)
+```
+
+## Problem 1 (Verzani problem 6.2)
+*Roll a pair of dice. Let $X$ be the largest value shown on the two dice. Use `sample()` to simulate five values of $X$.*
+
+```{r, echo=FALSE}
+# This code block resets the random seed in order to get consistent results. This will be hidden in the final document, but YOU MUST NOT CHANGE THIS!
+set.seed(5292016)
+```
+
+```{r, error=TRUE, tidy=TRUE}
+# Does a random sample for two separate dice and then finds the maximum of
+# those values and outputs them.
+die_one <- sample(c(1,2,3,4,5,6), 5, replace = TRUE)
+die_two <- sample(c(1,2,3,4,5,6), 5, replace = TRUE)
+
+pmax(die_one, die_two)
+```
+
+## Problem 2 (Verzani problem 6.3)
+*The National Basketball Association lottery to award the first pick in the draft is held by putting 1,000 balls into a hopper and selecting one. The teams with the worst records the previous year have a greater proportion of the balls. The data set `nba.draft` (**UsingR**) contains the ball allocation for the year 2002. Use `sample()` with Team as the data vector and `prob=Balls` to simulate the draft. What team do you select? Repeat until Golden State is chosen. How long did it take?*
+
+```{r, echo=FALSE}
+# This code block resets the random seed in order to get consistent results. This will be hidden in the final document, but YOU MUST NOT CHANGE THIS!
+set.seed(5292016)
+```
+
+```{r, error=TRUE, tidy=TRUE}
+# Loads the library we need
+library(UsingR)
+# Sample pulling from the team list, not replacing because once a team has been
+# chosen, they can't be chosen again, and then the probability is defined as
+# the ball allocation.
+sample(nba.draft$Team, replace = FALSE, prob=nba.draft$Balls)
+```
+
+## Problem 3 (Verzani problem 6.23)
+*Find the quintiles ($0^{\text{th}}$, $20^{\text{th}}$, $40^{\text{th}}$, $60^{\text{th}}$, $80^{\text{th}}$, and $100^{\text{th}}$ quantiles/percentiles) of the standard Normal distribution (this is a normal distribution with mean 0 and standard deviation 1).*
+
+```{r, error=TRUE, tidy=TRUE}
+# Creates a list from 0th Percentile to 100th Percentile
+qnorm(c(0,.2,.4,.6,.8,1), mean=0, sd=1)
+```

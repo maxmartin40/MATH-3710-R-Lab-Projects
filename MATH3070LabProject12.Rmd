@@ -1,0 +1,58 @@
+---
+title: "MATH 3070 Lab Project 12"
+author: "Max Martin"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+---
+
+*Remember: I expect to see commentary either in the text, in the code with comments created using `#`, or (preferably) both! **Failing to do so may result in lost points!***
+
+## Problem 1 (Verzani problem 8.7)
+*Of the last ten times you've dropped your toast, it landed sticky-side down nine times. If these are a random sample from the $\text{Ber}(p)$ distribution, find an 80% confidence interval for $p$, the probability of the stidy side landing down. (Use `binconf()` (**Hmisc**) to compute the score interval.)*
+
+```{r, tidy = TRUE}
+# Loading the important libraries
+library(UsingR)
+library(Hmisc)
+# Creates 80% confidence interval for the given 'toast landing' event 10 times
+binconf(9, 10, alpha = .2)
+```
+
+## Problem 2 (Verzani problem 8.10)
+*A survey is taken of 250 students, and a $\hat{p}$ of 0.45 is found. The same survey is repeated with 1000 students, and the same $\hat{p}$ is found. Compare the two 95% confidence intervals. What is the relationship? Is the margin of error for the second one four times smaller? If not, how much smaller is it? (Use `binom.test()` to answer this problem.)*
+
+```{r, tidy = TRUE}
+# Just filled in the information from the help box, running it once,
+# with a 0.45 success rate, two-sided interval, 250 people, and giving
+# a 95 percent confidence interval
+binom.test(112, 250, conf.level = 0.95)
+# Same thing but for 1000 people
+binom.test(450, 1000, conf.level = 0.95)
+```
+
+## Problem 3 (Verzani problem 8.15)
+*The `stud.recs` (**UsingR**) data set contains a sample of math SAT scores from some population in the variable `sat.m`. Find a 90% confidence interval for the mean math SAT score for this data. (Do not use `t.test(); find this confidence interval "by hand".)*
+
+```{r, tidy = TRUE}
+# We are doing this one by hand so we find all the separate variables and
+# compute it directly like in the lecture notes/actual lecture.
+xbar <- mean(stud.recs$sat.m)
+zstar <- qnorm(0.05, lower.tail = FALSE)
+sigma <- .5
+moe <- zstar * sigma/sqrt(length(stud.recs$sat.m))
+ci <- c(xbar-moe, xbar+moe)
+ci
+```
+
+## Problem 4 (Verzani problem 8.15)
+*For the `homedata` (**UsingR**) data set find 90% confidence intervals for both variables `y1970` and `y2000`, assuming the sample represents some population. Perform one sample t-test for each variable, use `t.test()`, but first discuss whether the model assumptions are appropriate (include some check of the assumptions, like a Q-Q plot).*
+
+```{r, tidy = TRUE}
+# Called the t.test function for both variables, nothing much to talk about.
+t.test(homedata$y1970)
+t.test(homedata$y2000)
+```
